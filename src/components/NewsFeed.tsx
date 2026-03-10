@@ -39,29 +39,24 @@ const NewsFeed = ({ news, selectedNews, onSelectNews }: NewsFeedProps) => {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -20, scale: 0.97 }}
               transition={{ delay: index * 0.04, type: "spring", stiffness: 300, damping: 30 }}
-              className={`group relative border-b border-border cursor-pointer transition-all duration-300 ${
-                isSelected
-                  ? "bg-secondary shadow-[inset_3px_0_0_0_hsl(var(--primary))]"
-                  : "hover:bg-secondary/40"
-              }`}
+              className="group px-2 py-1 border-b border-border cursor-pointer"
             >
-              {/* Main clickable area */}
               <div
-                className={`px-3 py-2.5 rounded-md transition-all duration-200 ${
+                className={`px-2.5 py-2 rounded-md transition-all duration-200 ${
                   isSelected
                     ? "bg-secondary shadow-[inset_2px_0_0_0_hsl(var(--primary))]"
                     : "hover:bg-secondary/40"
                 }`}
                 onClick={() => onSelectNews(item.id)}
               >
-                {/* Header row */}
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-1.5">
                     <Badge
                       variant={config.badgeVariant}
-                      className={`text-[9px] font-mono uppercase tracking-widest px-1.5 py-0 h-4 border ${config.bgClass} ${config.className}`}
+                      className={`text-[8px] font-mono uppercase tracking-widest px-1 py-0 h-3.5 border ${config.bgClass} ${config.className}`}
                     >
-                      <Icon className="w-2.5 h-2.5 mr-1" />
+                      <Icon className="w-2 h-2 mr-0.5" />
                       {config.label}
                     </Badge>
                     {item.category === "breaking" && (
@@ -72,60 +67,43 @@ const NewsFeed = ({ news, selectedNews, onSelectNews }: NewsFeedProps) => {
                       />
                     )}
                   </div>
-                  <span className="text-[10px] font-mono text-muted-foreground tabular-nums">{item.timeAgo}</span>
+                  <span className="text-[9px] font-mono text-muted-foreground tabular-nums">{item.timeAgo}</span>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-[12px] font-medium leading-snug mb-1 text-foreground group-hover:text-primary transition-colors duration-200">
+                <h3 className="text-[11px] font-medium leading-snug mb-1 text-foreground group-hover:text-primary transition-colors duration-200">
                   {item.title}
                 </h3>
 
-                <p className={`text-[11px] text-muted-foreground leading-relaxed mb-1.5 ${isExpanded ? "" : "line-clamp-2"}`}>
+                {/* Summary */}
+                <p className={`text-[10px] text-muted-foreground leading-relaxed mb-1.5 ${isExpanded ? "" : "line-clamp-2"}`}>
                   {item.summary}
-                </p>
                 </p>
 
                 {/* Footer */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <span className="text-[10px] font-mono text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded">
+                        <span className="text-[9px] font-mono text-muted-foreground bg-muted/50 px-1 py-0.5 rounded">
                           {item.source}
                         </span>
                       </TooltipTrigger>
-                      <TooltipContent side="bottom" className="text-xs">
-                        Source: {item.source}
-                      </TooltipContent>
+                      <TooltipContent side="bottom" className="text-xs">Source: {item.source}</TooltipContent>
                     </Tooltip>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span className="text-[10px] font-mono text-muted-foreground flex items-center gap-0.5">
-                          <MapPin className="w-2.5 h-2.5" />
-                          {item.region}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom" className="text-xs">
-                        Click to locate on map
-                      </TooltipContent>
-                    </Tooltip>
+                    <span className="text-[9px] font-mono text-muted-foreground flex items-center gap-0.5">
+                      <MapPin className="w-2 h-2" />
+                      {item.region}
+                    </span>
                   </div>
-
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-0.5">
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setExpandedId(isExpanded ? null : item.id);
-                      }}
+                      onClick={(e) => { e.stopPropagation(); setExpandedId(isExpanded ? null : item.id); }}
                       className="p-0.5 rounded hover:bg-muted transition-colors"
                     >
-                      {isExpanded ? (
-                        <ChevronUp className="w-3 h-3 text-muted-foreground" />
-                      ) : (
-                        <ChevronDown className="w-3 h-3 text-muted-foreground" />
-                      )}
+                      {isExpanded ? <ChevronUp className="w-2.5 h-2.5 text-muted-foreground" /> : <ChevronDown className="w-2.5 h-2.5 text-muted-foreground" />}
                     </button>
-                    <ExternalLink className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                    <ExternalLink className="w-2.5 h-2.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                   </div>
                 </div>
               </div>
@@ -140,8 +118,8 @@ const NewsFeed = ({ news, selectedNews, onSelectNews }: NewsFeedProps) => {
                     transition={{ duration: 0.2 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-4 pb-3 pt-0">
-                      <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground border-t border-border/50 pt-2">
+                    <div className="px-2.5 pb-2 pt-0">
+                      <div className="flex items-center gap-2 text-[9px] font-mono text-muted-foreground border-t border-border/50 pt-1.5">
                         <span>📍 {item.lat.toFixed(4)}, {item.lng.toFixed(4)}</span>
                         <span>🕐 {new Date(item.timestamp).toLocaleTimeString()}</span>
                       </div>
@@ -156,8 +134,8 @@ const NewsFeed = ({ news, selectedNews, onSelectNews }: NewsFeedProps) => {
 
       {news.length === 0 && (
         <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-          <Shield className="w-8 h-8 mb-2 opacity-40" />
-          <p className="text-xs font-mono">No events in this region</p>
+          <Shield className="w-6 h-6 mb-2 opacity-40" />
+          <p className="text-[10px] font-mono">No events in this region</p>
         </div>
       )}
     </div>
