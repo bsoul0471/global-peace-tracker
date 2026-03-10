@@ -72,9 +72,27 @@
   background: hsl(220, 20%, 7%) !important;
 }
 
+/* Meteor animation */
+@keyframes meteor {
+  0% {
+    transform: rotate(var(--angle)) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--angle)) translateX(-500px);
+    opacity: 0;
+  }
+}
+.animate-meteor {
+  animation: meteor 5s linear infinite;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
   background: hsl(220, 18%, 10%);
