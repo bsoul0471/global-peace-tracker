@@ -47,7 +47,11 @@ const NewsFeed = ({ news, selectedNews, onSelectNews }: NewsFeedProps) => {
             >
               {/* Main clickable area */}
               <div
-                className="px-4 py-3"
+                className={`px-3 py-2.5 rounded-md transition-all duration-200 ${
+                  isSelected
+                    ? "bg-secondary shadow-[inset_2px_0_0_0_hsl(var(--primary))]"
+                    : "hover:bg-secondary/40"
+                }`}
                 onClick={() => onSelectNews(item.id)}
               >
                 {/* Header row */}
