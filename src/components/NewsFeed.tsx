@@ -76,7 +76,7 @@ const NewsFeed = ({ news, selectedNews, onSelectNews }: NewsFeedProps) => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-[13px] font-medium leading-snug mb-1.5 text-foreground group-hover:text-primary transition-colors duration-200">
+                <h3 className="text-[12px] font-medium leading-snug mb-1 text-foreground group-hover:text-primary transition-colors duration-200">
                   {item.title}
                 </h3>
 
