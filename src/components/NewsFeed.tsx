@@ -80,9 +80,9 @@ const NewsFeed = ({ news, selectedNews, onSelectNews }: NewsFeedProps) => {
                   {item.title}
                 </h3>
 
-                {/* Summary - truncated */}
-                <p className={`text-xs text-muted-foreground leading-relaxed mb-2 ${isExpanded ? "" : "line-clamp-2"}`}>
+                <p className={`text-[11px] text-muted-foreground leading-relaxed mb-1.5 ${isExpanded ? "" : "line-clamp-2"}`}>
                   {item.summary}
+                </p>
                 </p>
 
                 {/* Footer */}
