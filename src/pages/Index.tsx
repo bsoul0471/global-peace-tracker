@@ -6,6 +6,7 @@ import NewsFeed from "@/components/NewsFeed";
 import RegionTabs from "@/components/RegionTabs";
 import StatsBar from "@/components/StatsBar";
 import MapLegend from "@/components/MapLegend";
+import { Meteors } from "@/components/ui/meteors";
 import { mockNews } from "@/data/mockNews";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -45,37 +46,37 @@ const Index = () => {
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
       {/* Top Bar */}
-      <header className="h-12 flex items-center justify-between px-4 border-b border-border bg-card/95 backdrop-blur-sm z-20 shrink-0">
-        <div className="flex items-center gap-3">
+      <header className="h-11 flex items-center justify-between px-3 border-b border-border bg-card/95 backdrop-blur-sm z-20 shrink-0">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1.5 rounded-md hover:bg-secondary transition-colors md:hidden"
+            className="p-1 rounded-md hover:bg-secondary transition-colors md:hidden"
           >
-            {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            {sidebarOpen ? <X className="w-3.5 h-3.5" /> : <Menu className="w-3.5 h-3.5" />}
           </button>
 
           {/* Logo */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <motion.div
               whileHover={{ scale: 1.1, rotate: 5 }}
-              className="w-7 h-7 rounded-md bg-primary flex items-center justify-center shadow-lg shadow-primary/25"
+              className="w-6 h-6 rounded bg-primary flex items-center justify-center shadow-lg shadow-primary/25"
             >
-              <Radio className="w-4 h-4 text-primary-foreground" />
+              <Radio className="w-3.5 h-3.5 text-primary-foreground" />
             </motion.div>
-            <span className="font-mono text-sm font-bold tracking-tight">WARWATCH</span>
+            <span className="font-mono text-xs font-bold tracking-tight">WARWATCH</span>
           </div>
 
           {/* Live indicator */}
-          <div className="hidden sm:flex items-center gap-1.5 ml-2">
+          <div className="hidden sm:flex items-center gap-1 ml-1">
             <motion.span
               animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="w-2 h-2 rounded-full bg-accent"
+              className="w-1.5 h-1.5 rounded-full bg-accent"
             />
-            <span className="text-[10px] font-mono text-accent uppercase tracking-widest font-semibold">Live</span>
+            <span className="text-[9px] font-mono text-accent uppercase tracking-widest font-semibold">Live</span>
           </div>
 
-          <Separator orientation="vertical" className="h-5 hidden md:block" />
+          <Separator orientation="vertical" className="h-4 hidden md:block" />
 
           {/* Stats */}
           <div className="hidden md:block">
@@ -83,21 +84,20 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono text-muted-foreground hidden lg:block">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[9px] font-mono text-muted-foreground hidden lg:block">
             {new Date().toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}
           </span>
 
-          <Separator orientation="vertical" className="h-5 hidden lg:block" />
+          <Separator orientation="vertical" className="h-4 hidden lg:block" />
 
-          {/* Map controls */}
           <Tooltip>
             <TooltipTrigger asChild>
               <button
                 onClick={() => setLegendOpen(!legendOpen)}
-                className={`p-1.5 rounded-md transition-colors ${legendOpen ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+                className={`p-1 rounded-md transition-colors ${legendOpen ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
               >
-                <Layers className="w-4 h-4" />
+                <Layers className="w-3.5 h-3.5" />
               </button>
             </TooltipTrigger>
             <TooltipContent className="text-xs">Map Legend</TooltipContent>
@@ -107,9 +107,9 @@ const Index = () => {
             <TooltipTrigger asChild>
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-1.5 rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors hidden md:block"
+                className="p-1 rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors hidden md:block"
               >
-                {sidebarOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
+                {sidebarOpen ? <PanelRightClose className="w-3.5 h-3.5" /> : <PanelRightOpen className="w-3.5 h-3.5" />}
               </button>
             </TooltipTrigger>
             <TooltipContent className="text-xs">{sidebarOpen ? "Close" : "Open"} News Panel</TooltipContent>
@@ -120,13 +120,17 @@ const Index = () => {
       {/* Main Content */}
       <div className="flex flex-1 overflow-hidden relative">
         {/* Map */}
-        <div className="flex-1 relative">
+        <div className="flex-1 relative overflow-hidden">
           <ConflictMap
             news={filteredNews}
             selectedNews={selectedNews}
             onSelectNews={handleSelectNews}
           />
           <MapLegend visible={legendOpen} />
+          {/* Meteors effect over the map */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden z-[5]">
+            <Meteors number={12} angle={215} minDuration={3} maxDuration={8} className="opacity-60" />
+          </div>
         </div>
 
         {/* News Sidebar */}
@@ -134,33 +138,32 @@ const Index = () => {
           {sidebarOpen && (
             <motion.aside
               initial={{ width: 0, opacity: 0 }}
-              animate={{ width: "auto", opacity: 1 }}
+              animate={{ width: 280, opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 400, damping: 35 }}
-              className="relative h-full z-10 bg-card border-l border-border flex flex-col w-80 lg:w-96"
+              className="relative h-full z-10 bg-card border-l border-border flex flex-col overflow-hidden"
+              style={{ minWidth: 0 }}
             >
               {/* Sidebar Header */}
               <div className="border-b border-border shrink-0">
-                <div className="flex items-center justify-between px-4 py-2.5">
-                  <h2 className="text-xs font-mono font-semibold uppercase tracking-wider flex items-center gap-2">
-                    News Feed
-                    <span className="text-[9px] font-mono text-muted-foreground bg-muted px-1.5 py-0.5 rounded tabular-nums">
+                <div className="flex items-center justify-between px-3 py-2">
+                  <h2 className="text-[10px] font-mono font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                    Feed
+                    <span className="text-[9px] font-mono text-muted-foreground bg-muted px-1 py-0.5 rounded tabular-nums">
                       {filteredNews.length}
                     </span>
                   </h2>
-                  <div className="flex items-center gap-1">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button
-                          onClick={() => setSearchOpen(!searchOpen)}
-                          className={`p-1 rounded-md transition-colors ${searchOpen ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
-                        >
-                          <Search className="w-3.5 h-3.5" />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent className="text-xs">Search news</TooltipContent>
-                    </Tooltip>
-                  </div>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => setSearchOpen(!searchOpen)}
+                        className={`p-1 rounded-md transition-colors ${searchOpen ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+                      >
+                        <Search className="w-3 h-3" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="text-xs">Search</TooltipContent>
+                  </Tooltip>
                 </div>
 
                 {/* Search bar */}
@@ -173,12 +176,12 @@ const Index = () => {
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-3 pb-2">
+                      <div className="px-2 pb-1.5">
                         <Input
-                          placeholder="Search events..."
+                          placeholder="Search..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="h-8 text-xs font-mono bg-muted border-border focus-visible:ring-primary/30"
+                          className="h-7 text-[11px] font-mono bg-muted border-border focus-visible:ring-primary/30"
                           autoFocus
                         />
                       </div>
